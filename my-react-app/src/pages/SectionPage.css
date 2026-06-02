@@ -1,149 +1,229 @@
+/* =============================================
+   SECTION PAGE – APARTMENT WELCOME REDESIGN
+   ============================================= */
+
 .section-page {
   min-height: 100vh;
   padding-top: 70px;
   display: flex;
   flex-direction: column;
+  background: var(--dark-bg);
 }
 
-.section-page-hero {
-  padding: 100px 24px 80px;
-  text-align: center;
-  color: white;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+/* ── Hero ── */
+.apt-hero {
+  min-height: 65vh;
+  display: flex;
+  align-items: flex-end;
+  background-size: cover;
+  background-position: center top;
+  position: relative;
+  padding: 60px 40px 80px;
 }
 
-.section-page-hero h1 {
-  font-size: 64px;
+.apt-hero-content {
+  max-width: 760px;
+  position: relative;
+  z-index: 1;
+}
+
+.welcome-label {
+  display: block;
+  font-size: 12px;
   font-weight: 800;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.apt-hero-content h1 {
+  font-size: 72px;
+  font-weight: 800;
+  letter-spacing: -2px;
+  color: #fff;
+  line-height: 1.0;
   margin-bottom: 20px;
-  letter-spacing: -1.5px;
 }
 
-.section-page-hero p {
-  font-size: 20px;
-  max-width: 640px;
-  margin: 0 auto 24px;
-  opacity: 0.9;
-  line-height: 1.5;
+.apt-hero-content > p {
+  font-size: 18px;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.7;
+  max-width: 560px;
+  margin-bottom: 32px;
 }
 
-.access-badge {
-  display: inline-block;
-  background: rgba(0,0,0,0.25);
+/* ── Badges ── */
+.apt-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.badge {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(8px);
   border: 1px solid rgba(255,255,255,0.2);
   border-radius: 50px;
-  padding: 6px 20px;
+  padding: 8px 20px;
   font-size: 13px;
   font-weight: 600;
-  letter-spacing: 1px;
+  color: #fff;
+  letter-spacing: 0.5px;
 }
 
-.section-page-container {
-  max-width: 1200px;
+/* ── Main Container ── */
+.apt-container {
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 60px 24px;
+  padding: 70px 24px 80px;
   flex: 1;
+  width: 100%;
 }
 
-.section-page-body {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  align-items: center;
-  margin-bottom: 80px;
+.apt-header {
+  text-align: center;
+  margin-bottom: 50px;
 }
 
-.section-text h2 {
-  font-size: 34px;
-  font-weight: 700;
-  margin-bottom: 20px;
+.apt-header h2 {
+  font-size: 42px;
+  font-weight: 800;
   color: var(--light-text);
+  letter-spacing: -1px;
+  margin-bottom: 12px;
 }
 
-.section-text > p {
+.apt-header p {
   font-size: 17px;
   color: var(--gray-text);
-  line-height: 1.7;
-  margin-bottom: 36px;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
-.section-details {
+/* ── Gallery Grid ── */
+.apt-gallery {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  gap: 16px;
+  margin-bottom: 60px;
 }
 
-.detail-card {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  padding: 22px;
-  border-radius: 14px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.detail-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-}
-
-.detail-card h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
-  color: var(--light-text);
-}
-
-.detail-card p,
-.detail-card ul {
-  font-size: 14px;
-  color: var(--gray-text);
-  line-height: 1.6;
-}
-
-.detail-card ul {
-  padding-left: 18px;
-}
-
-.detail-card ul li {
-  margin-bottom: 6px;
-}
-
-.section-image-large {
-  border-radius: 20px;
+/* Each item */
+.gallery-item {
+  position: relative;
   overflow: hidden;
+  border-radius: 16px;
   border: 1px solid var(--glass-border);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  background: var(--glass-bg);
 }
 
-.section-image-large img {
+/* Make first 2 items taller, spanning 2 rows */
+.gallery-item.item-0 {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+
+.gallery-item.item-1 {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.gallery-item.item-2 {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.gallery-item.item-3 {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.gallery-item.item-4 {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.gallery-item.item-5 {
+  grid-column: 2 / span 2;
+  grid-row: 3;
+}
+
+.gallery-item img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  min-height: 260px;
+  object-fit: cover;
   display: block;
+  transition: transform 0.5s ease;
 }
 
-.section-footer {
-  text-align: center;
+.gallery-item:hover img {
+  transform: scale(1.05);
 }
 
-.btn-back {
-  display: inline-block;
-  padding: 13px 32px;
-  background: transparent;
-  border: 2px solid var(--gray-text);
-  color: var(--gray-text);
-  text-decoration: none;
-  border-radius: 50px;
-  font-weight: 600;
+/* Overlay on hover */
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+  background: rgba(0,0,0,0.4);
+}
+
+.gallery-overlay span {
+  color: #fff;
   font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+
+.gallery-item:hover .gallery-overlay span {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Footer / Back Button ── */
+.apt-footer {
+  display: flex;
+  justify-content: center;
+}
+
+.apt-btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 40px;
+  border-radius: 50px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 700;
   font-family: 'Outfit', sans-serif;
-  transition: all var(--transition-smooth);
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
 }
 
-.btn-back:hover {
-  background: rgba(255, 255, 255, 0.05);
-  transform: translateX(-4px);
+.apt-btn-back:hover {
+  transform: translateX(-6px);
+  filter: brightness(1.15);
+  box-shadow: 0 14px 40px rgba(0,0,0,0.4);
 }
 
+/* ── Not Found ── */
 .section-page-not-found {
   min-height: 100vh;
   display: flex;
@@ -160,28 +240,38 @@
   color: #FF416C;
 }
 
-/* Stagger entrance: start hidden */
+/* ── Stagger enter – start hidden ── */
 .stagger-enter {
   opacity: 0;
 }
 
-@media (max-width: 1024px) {
-  .section-page-body {
-    grid-template-columns: 1fr;
-    gap: 40px;
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .apt-hero-content h1 { font-size: 48px; }
+  
+  .apt-gallery {
+    grid-template-columns: 1fr 1fr;
   }
+
+  .gallery-item.item-0 { grid-column: 1 / span 2; grid-row: 1; }
+  .gallery-item.item-1 { grid-column: 1; grid-row: 2; }
+  .gallery-item.item-2 { grid-column: 2; grid-row: 2; }
+  .gallery-item.item-3 { grid-column: 1; grid-row: 3; }
+  .gallery-item.item-4 { grid-column: 2; grid-row: 3; }
+  .gallery-item.item-5 { grid-column: 1 / span 2; grid-row: 4; }
 }
 
-@media (max-width: 768px) {
-  .section-page-hero {
-    padding: 60px 20px;
-  }
-
-  .section-page-hero h1 {
-    font-size: 40px;
-  }
-
-  .section-details {
-    grid-template-columns: 1fr;
+@media (max-width: 600px) {
+  .apt-hero { padding: 40px 20px 60px; min-height: 50vh; }
+  .apt-hero-content h1 { font-size: 36px; }
+  .apt-gallery { grid-template-columns: 1fr; }
+  .gallery-item.item-0,
+  .gallery-item.item-1,
+  .gallery-item.item-2,
+  .gallery-item.item-3,
+  .gallery-item.item-4,
+  .gallery-item.item-5 {
+    grid-column: 1;
+    grid-row: auto;
   }
 }
