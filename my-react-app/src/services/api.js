@@ -44,6 +44,9 @@ export const obtenerResultados = () =>
 export const obtenerEstadoParqueaderos = () =>
   apiFetch('/api/parqueadero/estado');
 
+export const resetearParqueadero = () =>
+  apiFetch('/api/parqueadero/reset', { method: 'POST' });
+
 // ========== Seguridad Termica ==========
 export const autorizarAccesoSeguridad = () =>
   apiFetch('/api/seguridad/autorizar', { method: 'POST' });

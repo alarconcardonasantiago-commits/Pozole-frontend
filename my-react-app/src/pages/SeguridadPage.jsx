@@ -205,76 +205,8 @@ const SeguridadPage = () => {
 
         {/* Main panel */}
         <div className="seg-main">
-          <div className="seg-tabs">
-            <button className={`seg-tab ${activeTab === 'monitorear' ? 'active' : ''}`} onClick={() => setActiveTab('monitorear')}>
-              📡 Monitorear Zona
-            </button>
-            <button className={`seg-tab ${activeTab === 'historial' ? 'active' : ''}`} onClick={() => { setActiveTab('historial'); fetchHistorial(); }}>
-              📋 Historial
-            </button>
-          </div>
-
-          {activeTab === 'monitorear' && (
-            <div className="seg-panel seg-card">
-              <h2>Monitorear Zona Específica</h2>
-              <p className="panel-desc">
-                {autorizado
-                  ? 'Selecciona la zona y registra la temperatura detectada por el sensor.'
-                  : 'Debes autorizar el acceso primero para poder monitorear.'}
-              </p>
-
-              <div className="zone-grid">
-                {ZONAS.map((z) => (
-                  <button
-                    key={z.id}
-                    className={`zone-btn ${zonaSeleccionada === z.id ? 'selected' : ''}`}
-                    onClick={() => setZonaSeleccionada(z.id)}
-                    disabled={!autorizado}
-                  >
-                    <span className="zone-num">{z.id}</span>
-                    <span className="zone-label">{z.label}</span>
-                  </button>
-                ))}
-              </div>
-
-              <div className="temp-input-group">
-                <label htmlFor="temp-input">Temperatura detectada (°C)</label>
-                <input
-                  id="temp-input"
-                  type="number"
-                  step="0.1"
-                  min="-50"
-                  max="200"
-                  value={temperatura}
-                  onChange={(e) => setTemperatura(e.target.value)}
-                  placeholder="ej: 36.5"
-                  disabled={!autorizado}
-                  className="temp-input"
-                  onKeyDown={(e) => e.key === 'Enter' && handleMonitorear()}
-                />
-              </div>
-
-              {/* Leyenda */}
-              <div className="temp-legend">
-                <span className="legend-item legend-ok">{'<28°C'} Sin actividad</span>
-                <span className="legend-item legend-plaga">28–35°C Posible plaga</span>
-                <span className="legend-item legend-persona">35–40°C Persona</span>
-                <span className="legend-item legend-anormal">{'>40°C'} Anormal</span>
-              </div>
-
-              <div className="seg-actions">
-                <button className="seg-btn seg-btn--primary" onClick={handleMonitorear} disabled={!autorizado || loading}>
-                  {loading ? 'Monitoreando...' : '📡 Monitorear Zona'}
-                </button>
-                <button className="seg-btn seg-btn--accent" onClick={handleEscaneoGeneral} disabled={!autorizado || loading}>
-                  {loading ? 'Escaneando...' : '🔍 Escaneo General'}
-                </button>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'historial' && (
-            <div className="seg-panel seg-card">
+          {/* Removed Monitorear tab completely as requested */}
+          <div className="seg-panel seg-card">
               <h2>Historial de Detecciones</h2>
               {historial.length === 0 ? (
                 <p className="no-data">No hay detecciones registradas aún.</p>

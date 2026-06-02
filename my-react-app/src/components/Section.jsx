@@ -48,52 +48,41 @@ const Section = ({ section, index, onExplore }) => {
       className="section"
       style={{
         background: `linear-gradient(180deg, rgba(20,20,22,0.4) 0%, rgba(0,0,0,0.7) 100%)`,
-        borderBottom: `2px solid ${section.color}40`, // Add a subtle border to separate floors
+        borderBottom: `2px solid ${section.color}40`,
+        minHeight: section.isFloor ? '30vh' : '50vh', // Adjust height for floors vs others
       }}
       ref={sectionRef}
     >
-      <div className="section-container">
-        <div className="section-header-text animate-item">
-          <h2 style={{ backgroundImage: section.gradient }}>{section.name}</h2>
-          <p>{section.description}</p>
-        </div>
-
-        {section.hasTwoColumns ? (
-          /* Two-column layout for Pisos */
-          <div className="section-columns">
-            {section.columns.map((col, colIndex) => (
-              <div key={colIndex} className="section-column animate-item">
-                <div className="section-image">
-                  <img
-                    src={`https://placehold.co/600x400/141416/FFFFFF?text=${encodeURIComponent(section.name + ' - ' + col.label)}&font=outfit`}
-                    alt={`${section.name} ${col.label}`}
-                    loading="lazy"
-                  />
-                </div>
-                <p className="column-label">{col.label}</p>
-                <button
-                  className="section-link"
-                  style={{ background: section.gradient }}
-                  onClick={handleExplore}
-                >
-                  Explorar {section.name} →
-                </button>
-              </div>
-            ))}
+      <div className="section-container" style={{ justifyContent: 'center', alignItems: 'center' }}>
+        
+        {section.isFloor ? (
+          /* Floor Layout: Just a big button to access the floor */
+          <div className="section-floor-only animate-item" style={{ textAlign: 'center', width: '100%' }}>
+            <h2 style={{ backgroundImage: section.gradient, fontSize: '3rem', marginBottom: '30px' }}>{section.name}</h2>
+            <button
+              className="section-link floor-btn"
+              style={{ background: section.gradient, fontSize: '1.5rem', padding: '20px 60px', borderRadius: '50px', width: 'auto' }}
+              onClick={handleExplore}
+            >
+              Acceder al {section.name} →
+            </button>
           </div>
         ) : (
-          /* Single column for Parqueadero / Seguridad */
-          <div className="section-single animate-item">
-            <div className="section-image">
+          /* Parqueadero / Seguridad Layout: Image + button */
+          <div className="section-single animate-item" style={{ textAlign: 'center' }}>
+            <h2 style={{ backgroundImage: section.gradient, marginBottom: '20px' }}>{section.name}</h2>
+            <p style={{ marginBottom: '30px', color: '#ccc' }}>{section.description}</p>
+            <div className="section-image" style={{ marginBottom: '20px', borderRadius: '15px', overflow: 'hidden' }}>
               <img
-                src={`https://placehold.co/800x500/141416/FFFFFF?text=${encodeURIComponent(section.name)}&font=outfit`}
+                src={section.image}
                 alt={section.name}
                 loading="lazy"
+                style={{ width: '100%', maxHeight: '400px', objectFit: 'cover' }}
               />
             </div>
             <button
               className="section-link"
-              style={{ background: section.gradient }}
+              style={{ background: section.gradient, fontSize: '1.2rem', padding: '15px 40px' }}
               onClick={handleExplore}
             >
               Explorar {section.name} →

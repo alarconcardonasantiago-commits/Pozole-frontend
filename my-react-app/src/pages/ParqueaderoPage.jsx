@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import anime from 'animejs';
-import { obtenerEstadoParqueaderos } from '../services/api';
+import { obtenerEstadoParqueaderos, resetearParqueadero } from '../services/api';
 import './ParqueaderoPage.css';
 
 const ParqueaderoPage = () => {
@@ -59,6 +59,20 @@ const ParqueaderoPage = () => {
         easing: 'easeOutElastic(1, .6)'
       });
     }, 50);
+  };
+
+  const handleReset = async () => {
+    setLoading(true);
+    try {
+      await resetearParqueadero();
+      await fetchEstado();
+      setTicket(null);
+      setError('');
+    } catch {
+      setError('Error al resetear parqueadero.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -135,6 +149,15 @@ const ParqueaderoPage = () => {
             style={{ marginTop: '20px' }}
           >
             🔄 Actualizar Estado
+          </button>
+          
+          <button
+            className="parking-btn parking-btn--accent"
+            onClick={handleReset}
+            disabled={loading}
+            style={{ marginTop: '10px' }}
+          >
+            🧹 Resetear Parqueadero
           </button>
         </aside>
 
