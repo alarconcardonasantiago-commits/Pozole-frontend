@@ -2,12 +2,21 @@ import React, { useState, useEffect } from 'react';
 import anime from 'animejs';
 import {
   autorizarAccesoSeguridad,
-  monitorearZona,
   escanearGeneral,
   obtenerEstadoSensores,
   obtenerHistorial,
 } from '../services/api';
 import './SeguridadPage.css';
+
+/*
+ * ============================================================================
+ * COMPONENTE: SeguridadPage.jsx (Frontend - React)
+ * DESCRIPCIÓN: Página que simula el monitoreo de temperatura del edificio.
+ * HERRAMIENTAS: React Hooks (useEffect para el temporizador).
+ * FUNCIÓN: Una vez autorizado, envía peticiones al backend cada 3 segundos
+ * para obtener nuevas temperaturas aleatorias y las muestra en pantalla.
+ * ============================================================================
+ */
 
 const ZONAS = [
   { id: 1, label: 'Piso 1' },

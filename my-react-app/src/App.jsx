@@ -9,6 +9,17 @@ import ParqueaderoPage from './pages/ParqueaderoPage';
 import SeguridadPage from './pages/SeguridadPage';
 import './App.css';
 
+/*
+ * ============================================================================
+ * COMPONENTE: App.jsx (Frontend - React)
+ * DESCRIPCIÓN: Es el componente "raíz" o principal de toda la interfaz web.
+ * HERRAMIENTAS: React Router (para cambiar de página sin recargar el navegador),
+ * React Hooks (useState, useLocation para guardar variables).
+ * FUNCIÓN: Decide qué pantalla mostrar dependiendo de la URL (Ej: /parqueadero
+ * muestra la página del parqueadero).
+ * ============================================================================
+ */
+
 const App = () => {
   const [showWelcome, setShowWelcome] = useState(true);
   const location = useLocation();

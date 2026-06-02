@@ -3,6 +3,17 @@ import anime from 'animejs';
 import { obtenerEstadoParqueaderos, resetearParqueadero } from '../services/api';
 import './ParqueaderoPage.css';
 
+/*
+ * ============================================================================
+ * COMPONENTE: ParqueaderoPage.jsx (Frontend - React)
+ * DESCRIPCIÓN: Página que gestiona la asignación de 20 espacios de parqueadero.
+ * HERRAMIENTAS: React Hooks (useEffect, useState), anime.js (Para animaciones
+ * fluidas del ticket).
+ * FUNCIÓN: Pide los datos al backend (C++), busca un espacio libre al azar,
+ * y muestra el resultado (el ticket) al usuario en pantalla.
+ * ============================================================================
+ */
+
 const ParqueaderoPage = () => {
   const [parqueaderos, setParqueaderos] = useState([]);
   const [loading, setLoading] = useState(false);

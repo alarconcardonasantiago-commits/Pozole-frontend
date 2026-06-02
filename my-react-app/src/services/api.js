@@ -1,5 +1,16 @@
+/*
+ * ============================================================================
+ * ARCHIVO: api.js (Frontend - JavaScript)
+ * DESCRIPCIÓN: Centraliza la comunicación con el servidor (backend).
+ * HERRAMIENTAS: Función nativa 'fetch' de JavaScript.
+ * FUNCIÓN: Contiene todas las funciones que envían y reciben datos del backend
+ * a través de internet (Cloudflare Tunnel).
+ * ============================================================================
+ */
+
 // Centralized API service for the Pozole Backend
 // Change this URL to your Render deployment URL when deployed
+// Usamos la URL que Cloudflare nos da (configurada en Vercel)
 const API_BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:8080').replace(/\/$/, '');
 
 // Helper function for fetch requests

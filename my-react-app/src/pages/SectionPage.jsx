@@ -4,6 +4,16 @@ import anime from 'animejs';
 import { SECTIONS } from '../constants/sections';
 import './SectionPage.css';
 
+/*
+ * ============================================================================
+ * COMPONENTE: SectionPage.jsx (Frontend - React)
+ * DESCRIPCIÓN: Es la página de bienvenida cuando el usuario ingresa a un apartamento.
+ * HERRAMIENTAS: React Router (useParams para leer el número del piso desde la URL).
+ * FUNCIÓN: Renderiza una vista de bienvenida estéticamente agradable. No hace
+ * peticiones al backend, solo muestra imágenes e información.
+ * ============================================================================
+ */
+
 const APARTMENT_IMAGES = [
   'https://media.discordapp.net/attachments/1506529298125684866/1511313877407629352/31f2ba0869cc8b06786e64c571dbffc5.png?ex=6a20003b&is=6a1eaebb&hm=e3f5a0809e11236671b17158fcd1ef4873d9880d009a4d72bd6c21b313d33d18&=&format=webp&quality=lossless&width=676&height=902',
   'https://media.discordapp.net/attachments/1506529298125684866/1511313877915406416/5a0818c4c6bef5963b2c006e4ab724f6.png?ex=6a20003b&is=6a1eaebb&hm=b50f9f4669c18a5309f3c1562be3e362e125dad99fee42e95669737f6f99e479&=&format=webp&quality=lossless',
