@@ -1,120 +1,116 @@
 import React, { useState, useEffect } from 'react';
 import anime from 'animejs';
-import {
-  inscribirParqueadero,
-  ejecutarSorteo,
-  obtenerResultados,
-  obtenerEstadoParqueaderos,
-} from '../services/api';
+import { obtenerEstadoParqueaderos } from '../services/api';
 import './ParqueaderoPage.css';
 
 const ParqueaderoPage = () => {
-  const [apartamento, setApartamento] = useState('');
-  const [status, setStatus] = useState(null); // { type: 'success'|'error', message }
-  const [resultados, setResultados] = useState([]);
   const [parqueaderos, setParqueaderos] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState('inscribir'); // 'inscribir' | 'resultados' | 'estado'
+  const [ticket, setTicket] = useState(null); // { spot: 'P-01' }
+  const [error, setError] = useState('');
 
-  const showStatus = (type, message) => {
-    setStatus({ type, message });
-    setTimeout(() => setStatus(null), 4000);
-  };
-
-  const handleInscribir = async () => {
-    if (!apartamento.trim()) {
-      showStatus('error', 'Por favor ingresa un número de apartamento.');
-      return;
-    }
-    setLoading(true);
-    try {
-      const data = await inscribirParqueadero(apartamento.trim());
-      showStatus(data.status === 'success' ? 'success' : 'error', data.message);
-      if (data.status === 'success') setApartamento('');
-    } catch {
-      showStatus('error', 'Error de conexión con el servidor.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSorteo = async () => {
-    setLoading(true);
-    try {
-      const data = await ejecutarSorteo();
-      if (data.status === 'success') {
-        showStatus('success', `Sorteo ejecutado. ${data.ganadores?.length || 0} ganador(es) asignado(s).`);
-        handleVerResultados();
-        handleEstado();
-      } else {
-        showStatus('error', data.message);
-      }
-    } catch {
-      showStatus('error', 'Error de conexión con el servidor.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleVerResultados = async () => {
-    setActiveTab('resultados');
-    setLoading(true);
-    try {
-      const data = await obtenerResultados();
-      setResultados(data.data || []);
-      if (data.status === 'error') showStatus('error', data.message);
-    } catch {
-      showStatus('error', 'Error de conexión con el servidor.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleEstado = async () => {
-    setActiveTab('estado');
+  const fetchEstado = async () => {
     setLoading(true);
     try {
       const data = await obtenerEstadoParqueaderos();
       setParqueaderos(data.data || []);
     } catch {
-      showStatus('error', 'Error de conexión con el servidor.');
+      setError('Error de conexión con el servidor al cargar parqueaderos.');
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    handleEstado();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchEstado();
   }, []);
 
-  useEffect(() => {
-    anime({
-      targets: '.parking-card',
-      opacity: [0, 1],
-      translateY: [30, 0],
-      duration: 700,
-      delay: anime.stagger(100),
-      easing: 'easeOutQuart',
-    });
-  }, []);
+  const handleObtenerTiquete = () => {
+    // Buscar parqueaderos libres
+    const libres = parqueaderos.filter(p => p.estado === 'LIBRE');
+    
+    if (libres.length === 0) {
+      setError('¡Lo sentimos! El parqueadero está lleno en este momento.');
+      setTicket(null);
+      return;
+    }
 
-  const APARTAMENTOS = ['101','102','201','202','301','302','401','402','501','502'];
+    // Elegir uno aleatorio
+    const randomIndex = Math.floor(Math.random() * libres.length);
+    const assignedSpot = libres[randomIndex].parqueadero;
+
+    // Actualizar el estado local para marcarlo como ocupado
+    const nuevosParqueaderos = parqueaderos.map(p => 
+      p.parqueadero === assignedSpot ? { ...p, estado: 'OCUPADO' } : p
+    );
+    setParqueaderos(nuevosParqueaderos);
+    
+    setTicket(assignedSpot);
+    setError('');
+
+    // Animación del ticket
+    setTimeout(() => {
+      anime({
+        targets: '.ticket-card',
+        scale: [0.8, 1],
+        opacity: [0, 1],
+        rotate: ['-5deg', '0deg'],
+        duration: 800,
+        easing: 'easeOutElastic(1, .6)'
+      });
+    }, 50);
+  };
 
   return (
     <main className="parking-page">
       <div className="parking-hero" style={{ background: 'linear-gradient(135deg, #dc2430 0%, #7b4397 100%)' }}>
-        <h1>🅿️ Parqueadero</h1>
-        <p>Gestión del sorteo de parqueaderos disponibles en el edificio.</p>
+        <h1>🅿️ Parqueadero Inteligente</h1>
+        <p>Sistema de asignación automática de parqueo. Obtén tu tiquete al instante.</p>
       </div>
 
-      {status && (
-        <div className={`parking-status parking-status--${status.type}`}>
-          {status.type === 'success' ? '✅' : '⚠️'} {status.message}
+      {error && (
+        <div className="parking-status parking-status--error">
+          ⚠️ {error}
         </div>
       )}
 
       <div className="parking-container">
+        {/* Panel principal */}
+        <div className="parking-main" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+          
+          <div className="parking-panel parking-card" style={{ width: '100%', maxWidth: '500px', textAlign: 'center' }}>
+            <h2>Bienvenido al Edificio</h2>
+            <p className="panel-desc">Presiona el botón para que el sistema te asigne un espacio de parqueo disponible.</p>
+            
+            <button
+              className="parking-btn parking-btn--primary"
+              style={{ padding: '20px 40px', fontSize: '1.2rem', margin: '20px 0', borderRadius: '50px' }}
+              onClick={handleObtenerTiquete}
+              disabled={loading}
+            >
+              {loading ? 'Cargando...' : '🎫 OBTENER TIQUETE DE PARQUEO'}
+            </button>
+
+            {ticket && (
+              <div className="ticket-card" style={{ 
+                marginTop: '30px', 
+                padding: '30px', 
+                background: 'linear-gradient(135deg, #FFDF00 0%, #FF8C00 100%)', 
+                color: '#000', 
+                borderRadius: '15px', 
+                boxShadow: '0 10px 20px rgba(0,0,0,0.3)',
+                display: 'inline-block'
+              }}>
+                <h3 style={{ margin: '0 0 10px 0', fontSize: '1.2rem', textTransform: 'uppercase', letterSpacing: '2px' }}>Tu Parqueadero Asignado</h3>
+                <div style={{ fontSize: '4rem', fontWeight: 'bold', fontFamily: 'monospace' }}>
+                  {ticket}
+                </div>
+                <p style={{ margin: '10px 0 0 0', fontSize: '0.9rem', opacity: 0.8 }}>Conserva este tiquete a la salida</p>
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* Sidebar de Parqueaderos */}
         <aside className="parking-sidebar">
           <h3>Estado Parqueaderos</h3>
@@ -134,89 +130,14 @@ const ParqueaderoPage = () => {
           </div>
           <button
             className="parking-btn parking-btn--secondary"
-            onClick={handleEstado}
+            onClick={fetchEstado}
             disabled={loading}
+            style={{ marginTop: '20px' }}
           >
             🔄 Actualizar Estado
           </button>
         </aside>
 
-        {/* Panel principal */}
-        <div className="parking-main">
-          {/* Tabs */}
-          <div className="parking-tabs">
-            <button
-              className={`parking-tab ${activeTab === 'inscribir' ? 'active' : ''}`}
-              onClick={() => setActiveTab('inscribir')}
-            >
-              📋 Inscribir
-            </button>
-            <button
-              className={`parking-tab ${activeTab === 'resultados' ? 'active' : ''}`}
-              onClick={handleVerResultados}
-            >
-              🏆 Resultados
-            </button>
-          </div>
-
-          {/* Panel Inscribir */}
-          {activeTab === 'inscribir' && (
-            <div className="parking-panel parking-card">
-              <h2>Inscribir Apartamento</h2>
-              <p className="panel-desc">Selecciona el apartamento a inscribir en el sorteo de parqueadero.</p>
-              <div className="apt-grid">
-                {APARTAMENTOS.map((apt) => (
-                  <button
-                    key={apt}
-                    className={`apt-btn ${apartamento === apt ? 'selected' : ''}`}
-                    onClick={() => setApartamento(apt)}
-                  >
-                    {apt}
-                  </button>
-                ))}
-              </div>
-              <div className="parking-actions">
-                <button
-                  className="parking-btn parking-btn--primary"
-                  onClick={handleInscribir}
-                  disabled={loading || !apartamento}
-                >
-                  {loading ? 'Procesando...' : '📝 Inscribir'}
-                </button>
-                <button
-                  className="parking-btn parking-btn--accent"
-                  onClick={handleSorteo}
-                  disabled={loading}
-                >
-                  {loading ? 'Sorteando...' : '🎲 Ejecutar Sorteo'}
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Panel Resultados */}
-          {activeTab === 'resultados' && (
-            <div className="parking-panel parking-card">
-              <h2>Resultados del Sorteo</h2>
-              {resultados.length === 0 ? (
-                <p className="no-data">No hay inscritos aún o no se ha ejecutado el sorteo.</p>
-              ) : (
-                <div className="results-table">
-                  <div className="results-header">
-                    <span>Apartamento</span>
-                    <span>Resultado</span>
-                  </div>
-                  {resultados.map((r, i) => (
-                    <div key={i} className={`results-row ${r.resultado.includes('GANADOR') ? 'winner' : ''}`}>
-                      <span>🏠 {r.apartamento}</span>
-                      <span>{r.resultado.includes('GANADOR') ? `🏆 ${r.resultado}` : '❌ ' + r.resultado}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-        </div>
       </div>
     </main>
   );

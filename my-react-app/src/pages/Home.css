@@ -2,4 +2,8 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  background-image: url('https://media.discordapp.net/attachments/1506529298125684866/1511220100869525654/Gemini_Generated_Image_vtky5xvtky5xvtky.png?ex=6a1fa8e5&is=6a1e5765&hm=e0716008db10f9be7633a2051860fe93bd51659859c41cec865bde305f86a777&=&format=webp&quality=lossless&width=804&height=1006');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }

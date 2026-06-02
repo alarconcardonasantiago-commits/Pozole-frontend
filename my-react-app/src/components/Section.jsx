@@ -47,7 +47,8 @@ const Section = ({ section, index, onExplore }) => {
       id={`section-${section.id}`}
       className="section"
       style={{
-        background: `linear-gradient(180deg, var(--dark-bg) 0%, rgba(0,0,0,0.85) 100%), ${section.gradient}`,
+        background: `linear-gradient(180deg, rgba(20,20,22,0.4) 0%, rgba(0,0,0,0.7) 100%)`,
+        borderBottom: `2px solid ${section.color}40`, // Add a subtle border to separate floors
       }}
       ref={sectionRef}
     >

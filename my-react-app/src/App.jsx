@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header';
-import Footer from './components/Footer';
 import ScrollButtons from './components/ScrollButtons';
 import WelcomeModal from './components/WelcomeModal';
 import Home from './pages/Home';
@@ -29,7 +28,6 @@ const App = () => {
         <Route path="/:path" element={<SectionPage />} />
       </Routes>
       <ScrollButtons />
-      <Footer />
     </div>
   );
 };

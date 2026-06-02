@@ -55,6 +55,16 @@ const SeguridadPage = () => {
     } catch { /* noop */ }
   };
 
+  const handleEscaneoGeneralSilent = async () => {
+    try {
+      const data = await escanearGeneral();
+      if (data.status === 'success') {
+        await fetchEstado();
+        await fetchHistorial();
+      }
+    } catch { /* noop */ }
+  };
+
   useEffect(() => {
     fetchEstado();
     fetchHistorial();
@@ -68,6 +78,19 @@ const SeguridadPage = () => {
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Intervalo aleatorio cada 3 segundos si está autorizado
+  useEffect(() => {
+    let interval;
+    if (autorizado) {
+      interval = setInterval(() => {
+        handleEscaneoGeneralSilent();
+      }, 3000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [autorizado]);
 
   const handleAutorizar = async () => {
     setLoading(true);
