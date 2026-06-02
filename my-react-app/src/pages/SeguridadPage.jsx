@@ -229,7 +229,6 @@ const SeguridadPage = () => {
                 </div>
               )}
             </div>
-          )}
         </div>
       </div>
     </main>
