@@ -92,6 +92,28 @@
   margin-bottom: 24px;
 }
 
+.access-apt-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.access-apt-btn {
+  padding: 12px 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  color: var(--gray-text);
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Outfit', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.access-apt-btn:hover { background: rgba(255,255,255,0.08); color: var(--light-text); }
+.access-apt-btn.selected { color: #fff; font-weight: 800; }
+
 .access-label {
   display: block;
   font-size: 13px;

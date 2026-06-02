@@ -6,6 +6,8 @@ import ScrollButtons from './components/ScrollButtons';
 import WelcomeModal from './components/WelcomeModal';
 import Home from './pages/Home';
 import SectionPage from './pages/SectionPage';
+import ParqueaderoPage from './pages/ParqueaderoPage';
+import SeguridadPage from './pages/SeguridadPage';
 import './App.css';
 
 const App = () => {
@@ -15,7 +17,6 @@ const App = () => {
 
   return (
     <div className="app">
-      {/* Welcome modal only on initial load of home page */}
       {showWelcome && isHome && (
         <WelcomeModal onClose={() => setShowWelcome(false)} />
       )}
@@ -23,6 +24,8 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/parqueadero" element={<ParqueaderoPage />} />
+        <Route path="/seguridad" element={<SeguridadPage />} />
         <Route path="/:path" element={<SectionPage />} />
       </Routes>
       <ScrollButtons />
