@@ -4,7 +4,6 @@ import anime from 'animejs';
 import { SECTIONS } from '../constants/sections';
 import './SectionPage.css';
 
-// Las imágenes proporcionadas por el usuario para el apartamento
 const APARTMENT_IMAGES = [
   'https://media.discordapp.net/attachments/1506529298125684866/1511313877407629352/31f2ba0869cc8b06786e64c571dbffc5.png?ex=6a20003b&is=6a1eaebb&hm=e3f5a0809e11236671b17158fcd1ef4873d9880d009a4d72bd6c21b313d33d18&=&format=webp&quality=lossless&width=676&height=902',
   'https://media.discordapp.net/attachments/1506529298125684866/1511313877915406416/5a0818c4c6bef5963b2c006e4ab724f6.png?ex=6a20003b&is=6a1eaebb&hm=b50f9f4669c18a5309f3c1562be3e362e125dad99fee42e95669737f6f99e479&=&format=webp&quality=lossless',
@@ -41,66 +40,46 @@ const SectionPage = () => {
       <main className="section-page-not-found">
         <h1>Página no encontrada</h1>
         <p>Lo sentimos, este apartamento no existe.</p>
-        <Link to="/" className="btn-back">← Volver al Inicio</Link>
+        <Link to="/" className="apt-btn-back">← Volver al Inicio</Link>
       </main>
     );
   }
 
-  // Extraer el número del piso para generar el nombre del apartamento (Ej: Piso 6 -> Apartamento 601)
+  // Elegir imagen aleatoriamente basada en el piso para consistencia
   const floorNumberMatch = section.name.match(/\d+/);
-  const floorNum = floorNumberMatch ? floorNumberMatch[0] : '1';
+  const floorNum = floorNumberMatch ? parseInt(floorNumberMatch[0]) : 1;
+  const bgImage = APARTMENT_IMAGES[(floorNum - 1) % APARTMENT_IMAGES.length];
   const aptName = `Apartamento ${floorNum}01`;
 
   return (
     <main className="section-page" ref={pageRef}>
-      {/* Hero Section */}
-      <div 
-        className="apt-hero" 
-        style={{ 
-          backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(20,20,22,1) 100%), url(${APARTMENT_IMAGES[0]})`
+      <div
+        className="apt-hero"
+        style={{
+          backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(20,20,22,1) 100%), url(${bgImage})`
         }}
       >
         <div className="apt-hero-content">
-          <span className="welcome-label stagger-enter" style={{ color: section.color }}>BIENVENIDO A TU HOGAR</span>
+          <span className="welcome-label stagger-enter" style={{ color: section.color }}>
+            BIENVENIDO A TU HOGAR
+          </span>
           <h1 className="stagger-enter">{aptName}</h1>
-          <p className="stagger-enter">
-            Un espacio diseñado para ofrecerte el máximo confort, tecnología y lujo. 
-            Disfruta de una experiencia inigualable en tu nuevo hogar.
-          </p>
+
           <div className="apt-badges stagger-enter">
             <span className="badge">✨ Domótica Integrada</span>
             <span className="badge">🌡️ Climatización Inteligente</span>
             <span className="badge">🔒 Seguridad 24/7</span>
           </div>
-        </div>
-      </div>
 
-      {/* Main Content Gallery */}
-      <div className="apt-container">
-        <div className="apt-header stagger-enter">
-          <h2>Galería del Apartamento</h2>
-          <p>Explora cada rincón de este magnífico espacio de diseño moderno.</p>
-        </div>
-
-        <div className="apt-gallery">
-          {APARTMENT_IMAGES.slice(1).map((img, index) => (
-            <div key={index} className={`gallery-item item-${index} stagger-enter`}>
-              <img src={img} alt={`Vista del apartamento ${index + 1}`} loading="lazy" />
-              <div className="gallery-overlay">
-                <span>Explorar Espacio</span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="apt-footer stagger-enter">
-          <Link
-            to="/"
-            className="apt-btn-back"
-            style={{ background: section.gradient }}
-          >
-            ← Volver al Lobby
-          </Link>
+          <div className="apt-footer stagger-enter">
+            <Link
+              to="/"
+              className="apt-btn-back"
+              style={{ background: section.gradient }}
+            >
+              ← Volver al Lobby
+            </Link>
+          </div>
         </div>
       </div>
     </main>
