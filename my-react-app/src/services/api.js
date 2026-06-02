@@ -5,7 +5,11 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 // Helper function for fetch requests
 const apiFetch = async (endpoint, options = {}) => {
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Bypass-Tunnel-Reminder': 'true',
+      ...options.headers,
+    },
     ...options,
   });
   const data = await response.json();
